@@ -5,7 +5,40 @@ public class GameData {
     private int displayWidth  = 800 ;
     private int displayHeight = 800;
     private final GameKeys keys = new GameKeys();
+    private int gameScore = 0;
+    private int lives = 3;
 
+    public void increaseLives() {
+        this.lives++;
+    }
+
+    public void decreaseLives() {
+        this.lives--;
+    }
+
+    public void increaseGameScore(){
+        this.gameScore++;
+    }
+
+    public void decreaseGameScore(){
+        this.gameScore--;
+    }
+
+    public void setGameScore(int score) {
+        this.gameScore = score;
+    }
+
+    public int getGameScore() {
+        return gameScore;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
 
     public GameKeys getKeys() {
         return keys;

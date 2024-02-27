@@ -1,10 +1,7 @@
 package dk.sdu.mmmi.cbse.playersystem;
 
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
-import dk.sdu.mmmi.cbse.common.data.Entity;
-import dk.sdu.mmmi.cbse.common.data.GameData;
-import dk.sdu.mmmi.cbse.common.data.GameKeys;
-import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.data.*;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 import java.util.Collection;
@@ -33,10 +30,9 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 player.setY(player.getY() + changeY);
             }
 
-            if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
-                Collection<? extends BulletSPI> bulletSPIs = getBulletSPIs();
-                for (BulletSPI bulletSPI : bulletSPIs) {
-                    Entity bullet = bulletSPI.createBullet(player, gameData);
+            if (gameData.getKeys().isDown(GameKeys.SPACE)) {
+                for (BulletSPI bulletSPI : getBulletSPIs()) {
+                    Entity bullet = bulletSPI.createBullet(player, gameData, new EntityType[]{EntityType.ASTEROID, EntityType.ENEMY});
                     world.addEntity(bullet);
                 }
             }

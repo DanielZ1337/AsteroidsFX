@@ -30,7 +30,9 @@ public class Main extends Application {
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
-    
+    private final Text gameScoreText = new Text(10, 20, String.format("Destroyed asteroids: %d", gameData.getGameScore()));
+    private final Text gameLivesText = new Text(10, 40, String.format("Lives: %d", gameData.getLives()));
+
 
     public static void main(String[] args) {
         launch(Main.class);
@@ -38,9 +40,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: 0");
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        gameWindow.getChildren().add(text);
+        gameWindow.getChildren().add(gameScoreText);
+        gameWindow.getChildren().add(gameLivesText);
 
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
@@ -112,9 +114,13 @@ public class Main extends Application {
         for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
             entityProcessorService.process(gameData, world);
         }
-//        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
-//            postEntityProcessorService.process(gameData, world);
-//        }
+
+        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+            postEntityProcessorService.process(gameData, world);
+        }
+
+        gameScoreText.setText(String.format("Destroyed asteroids: %d", gameData.getGameScore()));
+        gameLivesText.setText(String.format("Lives: %d", gameData.getLives()));
     }
 
     private void draw() {

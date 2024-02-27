@@ -4,6 +4,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.data.EntityType;
 
 public class AsteroidControlSystem implements IEntityProcessingService {
 
@@ -12,10 +13,12 @@ public class AsteroidControlSystem implements IEntityProcessingService {
     private final int ASTEROID_SIZE_VARIATION = 4;
     private final int SPAWN_INTERVAL = 200;
     private static long lastSpawn = 0;
+    private static int MAX_ASTEROIDS = 10;
+    private final EntityType[] asteroidEntityType = new EntityType[]{EntityType.PLAYER};
     @Override
     public void process(GameData gameData, World world) {
 
-        if (System.currentTimeMillis() - lastSpawn > SPAWN_INTERVAL) {
+        if (System.currentTimeMillis() - lastSpawn > SPAWN_INTERVAL && world.getEntities(Asteroid.class).size() < MAX_ASTEROIDS){
             lastSpawn = System.currentTimeMillis();
             Entity asteroid = createAsteroid(gameData);
             world.addEntity(asteroid);
@@ -30,7 +33,7 @@ public class AsteroidControlSystem implements IEntityProcessingService {
             int displayWidth = gameData.getDisplayWidth();
             int displayHeight = gameData.getDisplayHeight();
 
-            if (asteroid.getX() < -AREA_DISTANCE_FROM_BORDER) {
+            if (asteroid.getX() < -AREA_DISTANCE_FROM_BORDER) { 
                 world.removeEntity(asteroid);
             }
 
@@ -49,7 +52,9 @@ public class AsteroidControlSystem implements IEntityProcessingService {
     }
 
     private Entity createAsteroid(GameData gameData) {
-        Entity asteroid = new Asteroid();
+        Asteroid asteroid = new Asteroid();
+        asteroid.setType(EntityType.ASTEROID);
+        asteroid.setCollidableWith(asteroidEntityType);
         setShape(asteroid);
         // Randomly spawn asteroid on the border outside the screen
         int displayWidth = gameData.getDisplayWidth();

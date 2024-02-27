@@ -11,12 +11,28 @@ public class Entity implements Serializable {
     private double x;
     private double y;
     private double rotation;
-            
+    private EntityType[] collidableWith;
+    private EntityType type;
+
+    public EntityType[] getCollidableWith() {
+        return collidableWith;
+    }
+
+    public void setCollidableWith(EntityType[] collidableWith) {
+        this.collidableWith = collidableWith;
+    }
+
+    public EntityType getType() {
+        return type;
+    }
+
+    public void setType(EntityType type) {
+        this.type = type;
+    }
 
     public String getID() {
         return ID.toString();
     }
-
 
     public void setPolygonCoordinates(double... coordinates ) {
         this.polygonCoordinates = coordinates;

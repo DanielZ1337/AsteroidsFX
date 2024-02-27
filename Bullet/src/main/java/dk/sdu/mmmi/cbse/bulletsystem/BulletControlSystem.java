@@ -6,6 +6,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.data.EntityType;
 
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
 
@@ -38,9 +39,10 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
     }
 
     @Override
-    public Entity createBullet(Entity shooter, GameData gameData) {
-        Entity bullet = new Bullet();
-
+    public Entity createBullet(Entity shooter, GameData gameData, EntityType[] collidableWith) {
+        Bullet bullet = new Bullet();
+        bullet.setType(EntityType.BULLET);
+        bullet.setCollidableWith(collidableWith);
         bullet.setX(shooter.getX());
         bullet.setY(shooter.getY());
         bullet.setRotation(shooter.getRotation());
