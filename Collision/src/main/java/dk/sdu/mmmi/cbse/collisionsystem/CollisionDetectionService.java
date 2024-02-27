@@ -31,29 +31,53 @@ public class CollisionDetectionService implements IPostEntityProcessingService {
                         for (EntityType e1Collide : e1CollidesWith) {
                             for (EntityType e2Collide : e2CollidesWith) {
                                 if (e1Collide.equals(e2Type) || e2Collide.equals(e1Type)) {
-                                    // check if the shot entity is an enemy
-                                    if (e1Type.equals(EntityType.ENEMY) || e2Type.equals(EntityType.ENEMY)) {
-                                        gameData.setGameScore(gameData.getGameScore() + 1);
-                                    }
-
-
-                                    if (e1Type.equals(EntityType.PLAYER) || e2Type.equals(EntityType.PLAYER)) {
-                                        gameData.setLives(gameData.getLives() - 1);
-                                    }
-
-
-                                    if (!e1Type.equals(EntityType.PLAYER) && !e2Type.equals(EntityType.PLAYER)) {
+                                    if (e1Type.equals(EntityType.ASTEROID) && e2Type.equals(EntityType.BULLET)) {
+                                        gameData.increaseGameScore();
                                         world.removeEntity(e1);
                                         world.removeEntity(e2);
                                     }
 
+                                    if (e1Type.equals(EntityType.BULLET) && e2Type.equals(EntityType.ASTEROID)) {
+                                        gameData.increaseGameScore();
+                                        world.removeEntity(e1);
+                                        world.removeEntity(e2);
+                                    }
 
+                                    if (e1Type.equals(EntityType.ASTEROID) && e2Type.equals(EntityType.PLAYER)) {
+                                        gameData.decreaseLives();
+                                        world.removeEntity(e1);
+                                    }
 
+                                    if (e1Type.equals(EntityType.PLAYER) && e2Type.equals(EntityType.ASTEROID)) {
+                                        gameData.decreaseLives();
+                                        world.removeEntity(e2);
+                                    }
+
+                                    if (e1Type.equals(EntityType.ENEMY) && e2Type.equals(EntityType.BULLET)) {
+                                        gameData.increaseGameScore();
+                                        world.removeEntity(e2);
+                                        world.removeEntity(e1);
+                                    }
+
+                                    if (e1Type.equals(EntityType.BULLET) && e2Type.equals(EntityType.ENEMY)) {
+                                        gameData.increaseGameScore();
+                                        world.removeEntity(e1);
+                                        world.removeEntity(e2);
+                                    }
+
+                                    if (e1Type.equals(EntityType.BULLET) && e2Type.equals(EntityType.PLAYER)) {
+                                        gameData.decreaseLives();
+                                        world.removeEntity(e1);
+                                    }
+
+                                    if (e1Type.equals(EntityType.PLAYER) && e2Type.equals(EntityType.BULLET)) {
+                                        gameData.decreaseLives();
+                                        world.removeEntity(e2);
+                                    }
                                 }
                             }
                         }
                     }
-
                 }
             }
         }
