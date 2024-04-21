@@ -1,4 +1,5 @@
-dk/sdu/mmmi/cbse/enemysystem/Enemy.class
+dk\sdu\mmmi\cbse\enemysystem\Enemy$1.class
 module-info.class
-dk/sdu/mmmi/cbse/enemysystem/EnemyPlugin.class
-dk/sdu/mmmi/cbse/enemysystem/EnemyControlSystem.class
+dk\sdu\mmmi\cbse\enemysystem\EnemyControlSystem.class
+dk\sdu\mmmi\cbse\enemysystem\Enemy.class
+dk\sdu\mmmi\cbse\enemysystem\EnemyPlugin.class

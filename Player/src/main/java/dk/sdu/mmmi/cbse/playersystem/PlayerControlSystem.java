@@ -2,6 +2,9 @@ package dk.sdu.mmmi.cbse.playersystem;
 
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.*;
+import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
+import dk.sdu.mmmi.cbse.common.data.entityparts.MovePart;
+import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 import java.util.Collection;
@@ -12,48 +15,47 @@ import static java.util.stream.Collectors.toList;
 
 public class PlayerControlSystem implements IEntityProcessingService {
 
-    private final int ROTATION_SPEED = 5;
     @Override
     public void process(GameData gameData, World world) {
 
         for (Entity player : world.getEntities(Player.class)) {
-            if (gameData.getKeys().isDown(GameKeys.LEFT)) {
-                player.setRotation(player.getRotation() - ROTATION_SPEED);
+            PositionPart positionPart = player.getPart(PositionPart.class);
+            MovePart movePart = player.getPart(MovePart.class);
+            LifePart lifePart = player.getPart(LifePart.class);
+
+            if (lifePart != null) {
+                lifePart.process(gameData, player, world);
             }
-            if (gameData.getKeys().isDown(GameKeys.RIGHT)) {
-                player.setRotation(player.getRotation() + ROTATION_SPEED);
-            }
-            if (gameData.getKeys().isDown(GameKeys.UP)) {
-                double changeX = Math.cos(Math.toRadians(player.getRotation()));
-                double changeY = Math.sin(Math.toRadians(player.getRotation()));
-                player.setX(player.getX() + changeX);
-                player.setY(player.getY() + changeY);
-            }
+
+            movePart.setUp(gameData.getKeys().isDown(GameKeys.UP));
+            movePart.setLeft(gameData.getKeys().isDown(GameKeys.LEFT));
+            movePart.setRight(gameData.getKeys().isDown(GameKeys.RIGHT));
 
             if (gameData.getKeys().isDown(GameKeys.SPACE)) {
-                for (BulletSPI bulletSPI : getBulletSPIs()) {
-                    Entity bullet = bulletSPI.createBullet(player, gameData, new EntityType[]{EntityType.ASTEROID, EntityType.ENEMY});
+                getBulletSPIs().stream().findFirst().ifPresent(bulletSPI -> {
+                    Entity bullet = bulletSPI.createBullet(player, EntityType.PLAYER_BULLET, gameData);
                     world.addEntity(bullet);
-                }
+                });
             }
 
-            if (player.getX() < 0) {
-                player.setX(1);
+            if (positionPart.getX() < 0) {
+                positionPart.setX(1);
             }
 
-            if (player.getX() > gameData.getDisplayWidth()) {
-                player.setX(gameData.getDisplayWidth() - 1);
+            if (positionPart.getX() > gameData.getDisplayWidth()) {
+                positionPart.setX(gameData.getDisplayWidth() - 1);
             }
 
-            if (player.getY() < 0) {
-                player.setY(1);
+            if (positionPart.getY() < 0) {
+                positionPart.setY(1);
             }
 
-            if (player.getY() > gameData.getDisplayHeight()) {
-                player.setY(gameData.getDisplayHeight() - 1);
+            if (positionPart.getY() > gameData.getDisplayHeight()) {
+                positionPart.setY(gameData.getDisplayHeight() - 1);
             }
 
-
+            positionPart.process(gameData, player, world);
+            movePart.process(gameData, player, world);
         }
     }
 

@@ -1,25 +1,23 @@
 package dk.sdu.mmmi.cbse.common.data;
 
+import dk.sdu.mmmi.cbse.common.data.entityparts.EntityPart;
+
 import java.io.Serializable;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Entity implements Serializable {
 
     private final UUID ID = UUID.randomUUID();
     
     private double[] polygonCoordinates;
-    private double x;
-    private double y;
-    private double rotation;
-    private EntityType[] collidableWith;
+    private double radius;
     private EntityType type;
+    private Map<Class, EntityPart> parts;
 
-    public EntityType[] getCollidableWith() {
-        return collidableWith;
-    }
-
-    public void setCollidableWith(EntityType[] collidableWith) {
-        this.collidableWith = collidableWith;
+    public Entity() {
+        parts = new ConcurrentHashMap<>();
     }
 
     public EntityType getType() {
@@ -41,32 +39,25 @@ public class Entity implements Serializable {
     public double[] getPolygonCoordinates() {
         return polygonCoordinates;
     }
-       
 
-    public void setX(double x) {
-        this.x =x;
+    public double getRadius() {
+        return radius;
     }
 
-    public double getX() {
-        return x;
+    public void setRadius(double radius) {
+        this.radius = radius;
     }
 
-    
-    public void setY(double y) {
-        this.y = y;
+    public void add(EntityPart part) {
+        parts.put(part.getClass(), part);
     }
 
-    public double getY() {
-        return y;
+    public void remove(Class partClass) {
+        parts.remove(partClass);
     }
 
-    public void setRotation(double rotation) {
-        this.rotation = rotation;
+    public <E extends EntityPart> E getPart(Class partClass) {
+        return (E) parts.get(partClass);
     }
-
-    public double getRotation() {
-        return rotation;
-    }
-        
 
 }

@@ -8,7 +8,8 @@ module Collision {
     requires Asteroid;
     requires Player;
     requires Enemy;
-    
+    requires CommonCollision;
+
     opens dk.sdu.mmmi.cbse.collisionsystem to javafx.graphics;
     provides IPostEntityProcessingService with CollisionDetectionService;
 }

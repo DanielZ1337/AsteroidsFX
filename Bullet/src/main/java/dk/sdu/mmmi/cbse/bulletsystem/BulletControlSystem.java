@@ -5,47 +5,60 @@ import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
+import dk.sdu.mmmi.cbse.common.data.entityparts.MovePart;
+import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.data.EntityType;
 
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
 
     private final int BULLET_SPEED = 2;
+
     @Override
     public void process(GameData gameData, World world) {
 
         for (Entity bullet : world.getEntities(Bullet.class)) {
-            double changeX = Math.cos(Math.toRadians(bullet.getRotation()));
-            double changeY = Math.sin(Math.toRadians(bullet.getRotation()));
-            bullet.setX(bullet.getX() + changeX * BULLET_SPEED);
-            bullet.setY(bullet.getY() + changeY * BULLET_SPEED);
+            PositionPart positionPart = bullet.getPart(PositionPart.class);
+            MovePart movePart = bullet.getPart(MovePart.class);
+            LifePart lifePart = bullet.getPart(LifePart.class);
 
-            if(bullet.getX() < 0) {
+            if (lifePart != null) {
+                lifePart.process(gameData, bullet, world);
+            }
+
+            movePart.setUp(true);
+
+            if (positionPart.getX() < 0) {
                 world.removeEntity(bullet);
             }
 
-            if(bullet.getX() > gameData.getDisplayWidth()) {
+            if (positionPart.getX() > gameData.getDisplayWidth()) {
                 world.removeEntity(bullet);
             }
 
-            if(bullet.getY() < 0) {
+            if (positionPart.getY() < 0) {
                 world.removeEntity(bullet);
             }
 
-            if(bullet.getY() > gameData.getDisplayHeight()) {
+            if (positionPart.getY() > gameData.getDisplayHeight()) {
                 world.removeEntity(bullet);
             }
+
+            positionPart.process(gameData, bullet,world);
+            movePart.process(gameData, bullet,world);
         }
     }
 
     @Override
-    public Entity createBullet(Entity shooter, GameData gameData, EntityType[] collidableWith) {
+    public Bullet createBullet(Entity shooter, EntityType entityType, GameData gameData) {
         Bullet bullet = new Bullet();
-        bullet.setType(EntityType.BULLET);
-        bullet.setCollidableWith(collidableWith);
-        bullet.setX(shooter.getX());
-        bullet.setY(shooter.getY());
-        bullet.setRotation(shooter.getRotation());
+        bullet.setType(entityType);
+        bullet.setRadius(1f);
+        PositionPart shooterPos = shooter.getPart(PositionPart.class);
+        bullet.add(new PositionPart(shooterPos.getX(), shooterPos.getY(), shooterPos.getRotation()));
+        bullet.add(new MovePart(BULLET_SPEED));
+        bullet.add(new LifePart(1));
 
         setShape(bullet);
 
