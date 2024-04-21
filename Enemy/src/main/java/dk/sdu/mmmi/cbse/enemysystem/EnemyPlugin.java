@@ -16,29 +16,6 @@ public class EnemyPlugin implements IGamePluginService {
     @Override
     public void start(GameData gameData, World world) {
 
-        // Add entities to the world
-        enemy = createEnemyShip(gameData);
-        world.addEntity(enemy);
-    }
-
-    private Enemy createEnemyShip(GameData gameData) {
-
-        Enemy enemyShip = new Enemy();
-        enemyShip.setType(EntityType.ENEMY);
-        enemyShip.setRadius(10);
-        enemyShip.setPolygonCoordinates(-5,-5,10,0,-5,5);
-
-        double x = (double) gameData.getDisplayWidth() / 2;
-        double y = (double) gameData.getDisplayHeight() / 2;
-
-        enemyShip.add(new PositionPart(x, y, 0));
-
-        int ROTATION_SPEED = 5;
-
-        enemyShip.add(new MovePart(ROTATION_SPEED));
-        enemyShip.add(new LifePart(3));
-
-        return enemyShip;
     }
 
     @Override

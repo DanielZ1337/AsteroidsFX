@@ -24,6 +24,13 @@ public class EnemyControlSystem implements IEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
 
+        int MAX_ENEMIES = 5;
+
+        if (world.getEntities(Enemy.class).size() < MAX_ENEMIES) {
+            Entity enemy = createEnemyShip(gameData);
+            world.addEntity(enemy);
+        }
+
         for (Entity enemy : world.getEntities(Enemy.class)) {
             PositionPart positionPart = enemy.getPart(PositionPart.class);
             MovePart movePart = enemy.getPart(MovePart.class);
@@ -82,6 +89,27 @@ public class EnemyControlSystem implements IEntityProcessingService {
             positionPart.process(gameData, enemy, world);
             movePart.process(gameData, enemy,world);
         }
+    }
+
+    private Enemy createEnemyShip(GameData gameData) {
+
+        Enemy enemyShip = new Enemy();
+        enemyShip.setType(EntityType.ENEMY);
+        enemyShip.setRadius(5);
+        enemyShip.setPolygonCoordinates(-5,-5,10,0,-5,5);
+
+        double randomX = Math.random() * gameData.getDisplayWidth();
+        double randomY = Math.random() * gameData.getDisplayHeight();
+        double randomRotation = Math.random() * 360;
+
+        enemyShip.add(new PositionPart(randomX, randomY, randomRotation));
+
+        int ROTATION_SPEED = 5;
+
+        enemyShip.add(new MovePart(ROTATION_SPEED));
+        enemyShip.add(new LifePart(3));
+
+        return enemyShip;
     }
 
     private Collection<? extends BulletSPI> getBulletSPIs() {

@@ -14,8 +14,7 @@ public class Player extends Entity implements ICollidable {
     public void handleCollision(EntityType type) {
         LifePart lifePart = this.getPart(LifePart.class);
         switch (type) {
-            case ENEMY -> lifePart.setIsHit(true);
-            case ASTEROID -> lifePart.setLife(0);
+            case ENEMY, ASTEROID -> lifePart.setLife(0);
         }
     }
 }
