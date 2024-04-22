@@ -17,7 +17,8 @@ public class Enemy extends Entity implements ICollidable {
         LifePart lifePart = this.getPart(LifePart.class);
 
         switch (type) {
-            case PLAYER, PLAYER_BULLET -> lifePart.setLife(0);
+            case PLAYER -> lifePart.setLife(0);
+            case PLAYER_BULLET -> lifePart.setLife(lifePart.getLife() - 1);
         }
     }
 }

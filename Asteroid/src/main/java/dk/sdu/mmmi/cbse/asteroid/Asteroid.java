@@ -8,7 +8,6 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.commonasteroid.AsteroidSplitterSPI;
 import dk.sdu.mmmi.cbse.commoncollision.ICollidable;
-import dk.sdu.mmmi.cbse.commonplayer.IPlayerService;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,7 +39,6 @@ public class Asteroid extends Entity implements ICollidable {
                     }
 
                     world.removeEntity(this);
-                    getPlayerServices().stream().findFirst().ifPresent(IPlayerService::increaseScore);
                 });
                 lifePart.setLife(0);
             }
@@ -49,9 +47,5 @@ public class Asteroid extends Entity implements ICollidable {
 
     private Collection<? extends AsteroidSplitterSPI> getAsteroidSplitterSPIs() {
         return ServiceLoader.load(AsteroidSplitterSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
-
-    private Collection<? extends IPlayerService> getPlayerServices() {
-        return ServiceLoader.load(IPlayerService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 }
