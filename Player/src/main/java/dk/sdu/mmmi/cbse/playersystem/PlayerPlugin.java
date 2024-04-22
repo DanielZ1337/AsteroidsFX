@@ -36,7 +36,7 @@ public class PlayerPlugin implements IGamePluginService {
         int ROTATION_SPEED = 5;
         playerShip.add(new PositionPart(x, y, 0));
         playerShip.add(new MovePart(ROTATION_SPEED));
-        playerShip.setRadius(3);
+        playerShip.setRadius(6);
         playerShip.add(new LifePart(999));
         return playerShip;
     }
