@@ -17,6 +17,10 @@ public class Player extends Entity implements ICollidable {
         LifePart lifePart = this.getPart(LifePart.class);
         switch (type) {
             case ENEMY, ASTEROID -> lifePart.setLife(0);
+            case ENEMY_BULLET -> {
+                lifePart.setLife(lifePart.getLife() - 1);
+                gameData.setGameScore(gameData.getGameScore() + 1);
+            }
         }
     }
 

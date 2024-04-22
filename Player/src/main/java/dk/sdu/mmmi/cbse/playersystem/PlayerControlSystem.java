@@ -26,6 +26,8 @@ public class PlayerControlSystem implements IEntityProcessingService {
 
             if (lifePart != null) {
                 lifePart.process(gameData, player, world);
+                LifePart lifePart1 = player.getPart(LifePart.class);
+                gameData.setLives(lifePart1.getLife());
             }
 
             movePart.setUp(gameData.getKeys().isDown(GameKeys.UP));
@@ -57,6 +59,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
 
             positionPart.process(gameData, player, world);
             movePart.process(gameData, player, world);
+
         }
     }
 

@@ -118,6 +118,9 @@ public class Main extends Application {
         for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
             postEntityProcessorService.process(gameData, world);
         }
+
+        gameScoreText.setText(String.format("Destroyed asteroids: %d", gameData.getGameScore()));
+        gameLivesText.setText(String.format("Lives: %d", gameData.getLives()));
     }
 
     private void draw() {
