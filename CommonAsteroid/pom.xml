@@ -9,8 +9,8 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>dk.sdu.mmmi.cbse.commoncollision</groupId>
-    <artifactId>CommonCollision</artifactId>
+    <groupId>dk.sdu.mmmi.cbse.commonasteroid</groupId>
+    <artifactId>CommonAsteroid</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

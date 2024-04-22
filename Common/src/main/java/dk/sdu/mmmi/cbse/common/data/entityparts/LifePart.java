@@ -37,7 +37,7 @@ public class LifePart implements EntityPart {
             isHit = false;
         }
 
-        if(life <= 0){
+        if (life <= 0) {
             world.removeEntity(entity);
         }
     }

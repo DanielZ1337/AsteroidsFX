@@ -19,29 +19,29 @@ public class PositionPart implements EntityPart {
         return x;
     }
 
-    public double getY() {
-        return y;
-    }
-
-    public double getRotation() {
-        return rotation;
-    }
-
     public void setX(double newX) {
         this.x = newX;
+    }
+
+    public double getY() {
+        return y;
     }
 
     public void setY(double newY) {
         this.y = newY;
     }
 
-    public void setPosition(double newX, double newY) {
-        this.x = newX;
-        this.y = newY;
+    public double getRotation() {
+        return rotation;
     }
 
     public void setRotation(double rotation) {
         this.rotation = rotation;
+    }
+
+    public void setPosition(double newX, double newY) {
+        this.x = newX;
+        this.y = newY;
     }
 
     @Override

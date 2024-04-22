@@ -2,6 +2,8 @@ package dk.sdu.mmmi.cbse.common.bullet;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.EntityType;
+import dk.sdu.mmmi.cbse.common.data.GameData;
+import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.commoncollision.ICollidable;
 
@@ -11,7 +13,7 @@ import dk.sdu.mmmi.cbse.commoncollision.ICollidable;
 public class Bullet extends Entity implements ICollidable {
 
     @Override
-    public void handleCollision(EntityType type) {
+    public void handleCollision(EntityType type, GameData gameData, World world) {
         EntityType entityType = this.getType();
         LifePart lifePart = this.getPart(LifePart.class);
         switch (entityType) {

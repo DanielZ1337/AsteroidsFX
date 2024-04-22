@@ -3,13 +3,13 @@ package dk.sdu.mmmi.cbse.bulletsystem;
 import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
+import dk.sdu.mmmi.cbse.common.data.EntityType;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.MovePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.common.data.EntityType;
 
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
 
@@ -45,8 +45,8 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
                 world.removeEntity(bullet);
             }
 
-            positionPart.process(gameData, bullet,world);
-            movePart.process(gameData, bullet,world);
+            positionPart.process(gameData, bullet, world);
+            movePart.process(gameData, bullet, world);
         }
     }
 

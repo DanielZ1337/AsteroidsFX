@@ -8,17 +8,8 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ServiceLoader;
-import java.util.concurrent.ConcurrentHashMap;
-import static java.util.stream.Collectors.toList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -26,14 +17,21 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.ServiceLoader;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static java.util.stream.Collectors.toList;
+
 public class Main extends Application {
 
     private final GameData gameData = new GameData();
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private final Pane gameWindow = new Pane();
-    private final Text gameScoreText = new Text(10, 20, String.format("Destroyed asteroids: %d", gameData.getGameScore()));
-    private final Text gameLivesText = new Text(10, 40, String.format("Lives: %d", gameData.getLives()));
+    private final Text gameScoreText = new Text(10, 20, String.format("Destroyed asteroids: %d", 0));
+    private final Text gameLivesText = new Text(10, 40, String.format("Lives: %d", 0));
 
 
     public static void main(String[] args) {
@@ -105,11 +103,6 @@ public class Main extends Application {
                 update();
                 draw();
                 gameData.getKeys().update();
-
-                if(gameData.getLives() <= 0){
-                    stop();
-                    Platform.exit();
-                }
             }
 
         }.start();
@@ -125,9 +118,6 @@ public class Main extends Application {
         for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
             postEntityProcessorService.process(gameData, world);
         }
-
-        gameScoreText.setText(String.format("Destroyed asteroids: %d", gameData.getGameScore()));
-        gameLivesText.setText(String.format("Lives: %d", gameData.getLives()));
     }
 
     private void draw() {

@@ -7,6 +7,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 public interface IGamePluginService {
     /**
      * Method to start the game and initialize plugins
+     *
      * @param gameData The game data
      * @param world    The game world
      */
@@ -14,6 +15,7 @@ public interface IGamePluginService {
 
     /**
      * Method to stop the game and stop plugins
+     *
      * @param gameData The game data
      * @param world    The game world
      */

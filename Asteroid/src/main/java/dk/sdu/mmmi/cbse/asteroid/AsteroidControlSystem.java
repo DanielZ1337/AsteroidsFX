@@ -1,25 +1,26 @@
 package dk.sdu.mmmi.cbse.asteroid;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
+import dk.sdu.mmmi.cbse.common.data.EntityType;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.MovePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.common.data.EntityType;
+import dk.sdu.mmmi.cbse.commonasteroid.AsteroidSplitterSPI;
 
-public class AsteroidControlSystem implements IEntityProcessingService {
+public class AsteroidControlSystem implements IEntityProcessingService, AsteroidSplitterSPI {
 
-    private final int AREA_DISTANCE_FROM_BORDER = 100;
     private static long lastSpawn = 0;
+    private final int AREA_DISTANCE_FROM_BORDER = 100;
 
     @Override
     public void process(GameData gameData, World world) {
 
         int SPAWN_INTERVAL = 200;
         int MAX_ASTEROIDS = 10;
-        if (System.currentTimeMillis() - lastSpawn > SPAWN_INTERVAL && world.getEntities(Asteroid.class).size() < MAX_ASTEROIDS){
+        if (System.currentTimeMillis() - lastSpawn > SPAWN_INTERVAL && world.getEntities(Asteroid.class).size() < MAX_ASTEROIDS) {
             lastSpawn = System.currentTimeMillis();
             Entity asteroid = createAsteroid(gameData);
             world.addEntity(asteroid);
@@ -55,8 +56,8 @@ public class AsteroidControlSystem implements IEntityProcessingService {
                 world.removeEntity(asteroid);
             }
 
-            positionPart.process(gameData, asteroid,world);
-            movePart.process(gameData, asteroid,world);
+            positionPart.process(gameData, asteroid, world);
+            movePart.process(gameData, asteroid, world);
         }
     }
 
@@ -86,7 +87,7 @@ public class AsteroidControlSystem implements IEntityProcessingService {
 
         asteroid.setRadius(16.0f);
 
-        float rotation_from_spawn_to_center = (float) Math.toDegrees(Math.atan2(gameData.getDisplayHeight() / (Math.random()*2) - y, gameData.getDisplayWidth() / (Math.random()*2) - x));
+        float rotation_from_spawn_to_center = (float) Math.toDegrees(Math.atan2(gameData.getDisplayHeight() / (Math.random() * 2) - y, gameData.getDisplayWidth() / (Math.random() * 2) - x));
 
         asteroid.add(new PositionPart(x, y, rotation_from_spawn_to_center));
         int TRAVEL_SPEED = 2;
@@ -97,7 +98,7 @@ public class AsteroidControlSystem implements IEntityProcessingService {
     }
 
     private void setShape(Entity entity) {
-        double[] standardShape = new double[]{-5,-5,10,0,-5,5};
+        double[] standardShape = new double[]{-5, -5, 10, 0, -5, 5};
         double[] shape = new double[standardShape.length];
         for (int i = 0; i < standardShape.length; i++) {
             int ASTEROID_SIZE_VARIATION = 4;
@@ -106,4 +107,39 @@ public class AsteroidControlSystem implements IEntityProcessingService {
         entity.setPolygonCoordinates(shape);
     }
 
+    @Override
+    public Entity[] splitAsteroid(double x, double y, double radius, double rotation, double[] polygonCoordinates) {
+        Entity[] asteroids = new Entity[2];
+        double MIN_ASTEROID_SPLIT_RADIUS = 8;
+        double newRadius = radius / 2;
+        if (newRadius < MIN_ASTEROID_SPLIT_RADIUS) return null;
+
+        double ASTEROID_SPLIT_DISTANCE = 10;
+        double MAX_ASTEROID_SPLIT_ANGLE = 75;
+        double MIN_ASTEROID_SPLIT_ANGLE = 15;
+        double newSplitAngle = Math.random() * (MAX_ASTEROID_SPLIT_ANGLE - MIN_ASTEROID_SPLIT_ANGLE) + MIN_ASTEROID_SPLIT_ANGLE;
+
+        // based onthe newRadius also adjustthe the  size
+        double[] newPolygonCoordinates = new double[polygonCoordinates.length];
+        for (int i = 0; i < polygonCoordinates.length; i++) {
+            newPolygonCoordinates[i] = polygonCoordinates[i] / 2;
+        }
+
+        for (int i = 0; i < 2; i++) {
+            Entity asteroid = new Asteroid();
+            asteroid.setType(EntityType.ASTEROID);
+            asteroid.setPolygonCoordinates(newPolygonCoordinates);
+            asteroid.setRadius(asteroid.getRadius() / 2);
+            asteroid.add(new PositionPart(
+                    x + (i == 0 ? -ASTEROID_SPLIT_DISTANCE : ASTEROID_SPLIT_DISTANCE),
+                    y + (i == 0 ? -ASTEROID_SPLIT_DISTANCE : ASTEROID_SPLIT_DISTANCE),
+                    rotation + (i == 0 ? newSplitAngle : -newSplitAngle)
+            ));
+            int TRAVEL_SPEED = 2;
+            asteroid.add(new MovePart(TRAVEL_SPEED));
+            asteroid.add(new LifePart(1));
+            asteroids[i] = asteroid;
+        }
+        return asteroids;
+    }
 }

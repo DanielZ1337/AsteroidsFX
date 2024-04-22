@@ -4,7 +4,6 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.EntityType;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.commoncollision.ICollidable;
@@ -26,11 +25,11 @@ public class CollisionDetectionService implements IPostEntityProcessingService {
                 EntityType e2Type = e2.getType();
 
                 if (e1 instanceof ICollidable) {
-                    ((ICollidable) e1).handleCollision(e2Type);
+                    ((ICollidable) e1).handleCollision(e2Type, gameData, world);
                 }
 
                 if (e2 instanceof ICollidable) {
-                    ((ICollidable) e2).handleCollision(e1Type);
+                    ((ICollidable) e2).handleCollision(e1Type, gameData, world);
                 }
             }
         }

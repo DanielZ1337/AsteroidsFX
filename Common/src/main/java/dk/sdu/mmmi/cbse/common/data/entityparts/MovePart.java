@@ -4,20 +4,20 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 
-public class MovePart implements EntityPart{
+public class MovePart implements EntityPart {
 
     private double moveSpeed;
     private boolean left, right, up;
 
-    public MovePart(double moveSpeed){
+    public MovePart(double moveSpeed) {
         this.moveSpeed = moveSpeed;
     }
 
-    public double getMoveSpeed(){
+    public double getMoveSpeed() {
         return moveSpeed;
     }
 
-    public void setMoveSpeed(double moveSpeed){
+    public void setMoveSpeed(double moveSpeed) {
         this.moveSpeed = moveSpeed;
     }
 

@@ -66,28 +66,28 @@ public class EnemyControlSystem implements IEntityProcessingService {
                 }
             }
 
-            if(positionPart.getX() < 0) {
+            if (positionPart.getX() < 0) {
                 positionPart.setX(1);
                 positionPart.setRotation(positionPart.getRotation() + 180);
             }
 
-            if(positionPart.getX() > gameData.getDisplayWidth()) {
+            if (positionPart.getX() > gameData.getDisplayWidth()) {
                 positionPart.setX(gameData.getDisplayWidth() - 1);
                 positionPart.setRotation(positionPart.getRotation() + 180);
             }
 
-            if(positionPart.getY() < 0) {
+            if (positionPart.getY() < 0) {
                 positionPart.setY(1);
                 positionPart.setRotation(positionPart.getRotation() + 180);
             }
 
-            if(positionPart.getY() > gameData.getDisplayHeight()) {
+            if (positionPart.getY() > gameData.getDisplayHeight()) {
                 positionPart.setY(gameData.getDisplayHeight() - 1);
                 positionPart.setRotation(positionPart.getRotation() + 180);
             }
 
             positionPart.process(gameData, enemy, world);
-            movePart.process(gameData, enemy,world);
+            movePart.process(gameData, enemy, world);
         }
     }
 
@@ -96,7 +96,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
         Enemy enemyShip = new Enemy();
         enemyShip.setType(EntityType.ENEMY);
         enemyShip.setRadius(5);
-        enemyShip.setPolygonCoordinates(-5,-5,10,0,-5,5);
+        enemyShip.setPolygonCoordinates(-5, -5, 10, 0, -5, 5);
 
         double randomX = Math.random() * gameData.getDisplayWidth();
         double randomY = Math.random() * gameData.getDisplayHeight();
@@ -107,7 +107,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
         int ROTATION_SPEED = 5;
 
         enemyShip.add(new MovePart(ROTATION_SPEED));
-        enemyShip.add(new LifePart(3));
+        enemyShip.add(new LifePart(6));
 
         return enemyShip;
     }

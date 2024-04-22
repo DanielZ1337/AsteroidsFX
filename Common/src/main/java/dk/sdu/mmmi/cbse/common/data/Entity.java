@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Entity implements Serializable {
 
     private final UUID ID = UUID.randomUUID();
-    
+
     private double[] polygonCoordinates;
     private double radius;
     private EntityType type;
@@ -32,12 +32,12 @@ public class Entity implements Serializable {
         return ID.toString();
     }
 
-    public void setPolygonCoordinates(double... coordinates ) {
-        this.polygonCoordinates = coordinates;
-    }
-
     public double[] getPolygonCoordinates() {
         return polygonCoordinates;
+    }
+
+    public void setPolygonCoordinates(double... coordinates) {
+        this.polygonCoordinates = coordinates;
     }
 
     public double getRadius() {
