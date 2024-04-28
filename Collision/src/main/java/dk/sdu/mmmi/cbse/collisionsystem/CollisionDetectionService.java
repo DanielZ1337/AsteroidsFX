@@ -36,6 +36,9 @@ public class CollisionDetectionService implements IPostEntityProcessingService {
     }
 
     public boolean doesCollide(Entity entity, Entity entity2) {
+        if(entity.getRadius() == 0 || entity2.getRadius() == 0)
+            return false;
+
         PositionPart ent1PositionPart = entity.getPart(PositionPart.class);
         PositionPart ent2PositionPart = entity2.getPart(PositionPart.class);
         float dx = (float) ent1PositionPart.getX() - (float) ent2PositionPart.getX();
