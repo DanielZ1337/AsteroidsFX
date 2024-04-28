@@ -21,6 +21,7 @@
         <module>Collision</module>
         <module>CommonCollision</module>
         <module>CommonAsteroid</module>
+        <module>Scoresystem</module>
     </modules>
     <properties>
         <java>java</java>
