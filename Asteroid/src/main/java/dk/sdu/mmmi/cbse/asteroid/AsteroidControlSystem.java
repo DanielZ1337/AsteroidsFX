@@ -85,7 +85,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, Asteroid
             y = displayHeight + AREA_DISTANCE_FROM_BORDER;
         }
 
-        asteroid.setRadius(16.0f);
+        asteroid.setRadius(24.0f);
 
         float rotation_from_spawn_to_center = (float) Math.toDegrees(Math.atan2(gameData.getDisplayHeight() / (Math.random() * 2) - y, gameData.getDisplayWidth() / (Math.random() * 2) - x));
 
@@ -129,7 +129,7 @@ public class AsteroidControlSystem implements IEntityProcessingService, Asteroid
             Entity asteroid = new Asteroid();
             asteroid.setType(EntityType.ASTEROID);
             asteroid.setPolygonCoordinates(newPolygonCoordinates);
-            asteroid.setRadius(asteroid.getRadius() / 2);
+            asteroid.setRadius(newRadius);
             asteroid.add(new PositionPart(
                     x + (i == 0 ? -ASTEROID_SPLIT_DISTANCE : ASTEROID_SPLIT_DISTANCE),
                     y + (i == 0 ? -ASTEROID_SPLIT_DISTANCE : ASTEROID_SPLIT_DISTANCE),

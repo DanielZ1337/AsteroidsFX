@@ -19,16 +19,16 @@ public class PositionPart implements EntityPart {
         return x;
     }
 
-    public void setX(double newX) {
-        this.x = newX;
+    public void setX(double x) {
+        this.x = x;
     }
 
     public double getY() {
         return y;
     }
 
-    public void setY(double newY) {
-        this.y = newY;
+    public void setY(double y) {
+        this.y = y;
     }
 
     public double getRotation() {
@@ -39,9 +39,9 @@ public class PositionPart implements EntityPart {
         this.rotation = rotation;
     }
 
-    public void setPosition(double newX, double newY) {
-        this.x = newX;
-        this.y = newY;
+    public void setPosition(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
     @Override
