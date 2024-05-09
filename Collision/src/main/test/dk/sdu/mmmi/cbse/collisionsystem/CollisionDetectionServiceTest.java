@@ -13,13 +13,8 @@ public class CollisionDetectionServiceTest {
 
     @Test
     public void testEntitiesCollide() {
-        // Create the CollisionDetectionService instance to test
         CollisionDetectionService service = new CollisionDetectionService();
-        // Setup world and game data
-        World world = new World();
-        GameData gameData = new GameData();
 
-        // Create entities
         Entity entity1 = new Entity();
         entity1.setType(EntityType.PLAYER); // Assume PLAYER is a valid type
         entity1.add(new PositionPart(0, 0, 0)); // Entity at origin
@@ -30,10 +25,6 @@ public class CollisionDetectionServiceTest {
         entity2.add(new PositionPart(5, 0, 0)); // Entity 5 units right from origin
         entity2.setRadius(5); // Set a radius of 5
 
-        // Add entities to world
-        world.addEntity(entity1);
-        world.addEntity(entity2);
-
         // Check collision
         assertTrue(service.doesCollide(entity1, entity2), "Entities should collide");
     }
@@ -43,8 +34,6 @@ public class CollisionDetectionServiceTest {
         // Create the CollisionDetectionService instance to test
         CollisionDetectionService service = new CollisionDetectionService();
         // Setup world and game data
-        World world = new World();
-        GameData gameData = new GameData();
 
         // Create entities
         Entity entity1 = new Entity();
@@ -57,10 +46,6 @@ public class CollisionDetectionServiceTest {
         entity2.add(new PositionPart(11, 0, 0)); // Entity 11 units right from origin
         entity2.setRadius(5); // Set a radius of 5
 
-        // Add entities to world
-        world.addEntity(entity1);
-        world.addEntity(entity2);
-
         // Check collision
         assertFalse(service.doesCollide(entity1, entity2), "Entities should not collide");
     }
@@ -68,7 +53,6 @@ public class CollisionDetectionServiceTest {
     @Test
     public void testCollisionWithZeroRadius() {
         CollisionDetectionService service = new CollisionDetectionService();
-        World world = new World();
 
         Entity entity1 = new Entity();
         entity1.add(new PositionPart(0, 0, 0));
@@ -84,7 +68,6 @@ public class CollisionDetectionServiceTest {
     @Test
     public void testDiagonalCollision() {
         CollisionDetectionService service = new CollisionDetectionService();
-        World world = new World();
 
         Entity entity1 = new Entity();
         entity1.add(new PositionPart(0, 0, 0));
