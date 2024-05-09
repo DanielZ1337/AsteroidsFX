@@ -1,6 +1,5 @@
 package dk.sdu.mmmi.cbse.enemysystem;
 
-import dk.sdu.mmmi.cbse.common.bullet.Bullet;
 import dk.sdu.mmmi.cbse.common.bullet.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.EntityType;
@@ -59,7 +58,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
                 int TIME_BETWEEN_SHOTS = 300;
                 if (currentTime - lastShot > TIME_BETWEEN_SHOTS) {
                     getBulletSPIs().stream().findFirst().ifPresent(bulletSPI -> {
-                        Bullet bullet = bulletSPI.createBullet(enemy, EntityType.ENEMY_BULLET, gameData);
+                        Entity bullet = bulletSPI.createBullet(enemy, EntityType.ENEMY_BULLET, gameData);
                         world.addEntity(bullet);
                     });
                     lastShot = currentTime;
