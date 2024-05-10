@@ -41,7 +41,6 @@ public class Asteroid extends Entity implements ICollidable {
                     world.removeEntity(this);
                 });
                 lifePart.setLife(0);
-                gameData.setGameScore(gameData.getGameScore() + 1);
             }
         }
     }

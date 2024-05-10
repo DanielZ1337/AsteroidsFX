@@ -20,7 +20,10 @@ public class Bullet extends Entity implements ICollidable {
             case PLAYER_BULLET -> {
                 switch (type) {
                     case ENEMY -> lifePart.setIsHit(true);
-                    case ASTEROID -> lifePart.setLife(0);
+                    case ASTEROID -> {
+                        lifePart.setIsHit(true);
+                        gameData.setGameScore(gameData.getGameScore() + 1);
+                    }
                 }
             }
             case ENEMY_BULLET -> {
